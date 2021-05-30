@@ -83,31 +83,35 @@ void ui::updateDevUserMenu(const uint64_t& down, const uint64_t& held)
             fromPath = data::curData.getPath() + "/DevSaveSwitchAuto-" + name + "/";
             stat(fromPath.c_str(), &statbuf);
 
-            if (curDevUser == name) { // user save already active
+            if (curDevUser == name) { // user save already active, nothing to do
                 std::string text = "Device save of ";
                 text.append(name.c_str());
                 text.append(" already active.");
                 ui::showPopup(POP_FRAME_DEFAULT, text.c_str());
-            } else if (!S_ISDIR(statbuf.st_mode)) { // selected user has no save to restore fom
-                std::string text = name;
-                text.append(" does not have a device save folder...");
-                ui::showPopup(POP_FRAME_DEFAULT, text.c_str());
-            } else { // selected user is NOT active and DOES have save folder
+            } else {
                 if(fs::mountSave(data::curUser, data::curData)) {
                     data::curData.createDir();
                     fs::writeDevuserFile(data::curData.getPath(), name);
 
-                    if (curDevUser != "") { // backup save of active user unless non-existant
-                        // copy active save to folder of active user
+                    if (curDevUser != "") { // backup save of active user unless non-existent
                         std::string path = data::curData.getPath() + "/DevSaveSwitchAuto-" + curDevUser;
                         mkdir(path.c_str(), 777);
                         path += "/";
                         fs::copyDirToDir("sv:/", path);
                     }
-
-                    fs::wipeSave();
-                    fs::copyDirToDirCommit(fromPath, "sv:/", "sv");
-
+                    if (!S_ISDIR(statbuf.st_mode)) { // selected user has no save to restore fom
+                        mkdir(fromPath.c_str(), 777);
+                        fs::writeDevuserFile(data::curData.getPath(), name);
+                        ui::showPopup(POP_FRAME_DEFAULT, "New folder was created, please RESTORE a backup of this user now!");
+                    } else {
+                        fs::wipeSave();
+                        fs::copyDirToDirCommit(fromPath, "sv:/", "sv");
+                        fs::unmountSave();
+                        std::string text = "Device save of ";
+                        text.append(name);
+                        text.append(" is now active!");
+                        ui::showPopup(POP_FRAME_DEFAULT, text.c_str());
+                    }
                     fs::unmountSave();
                 }
             }
