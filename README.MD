@@ -1,5 +1,5 @@
 This fork contains a (dirty) modification to JKSV that allows device saves to be treated more like user saves.
-It was sparked from the inconvenience that Animal Crossing New Horizons does only allow for one island per console.
+It was sparked from the inconvenience that Animal Crossing New Horizons only allows for one island per console.
 With this mod you can now create one device save "per user" without having to manually backup and restore device saves via the normal JKSV functionality (and risking to make mistakes while doing so), which allows for multiple islands per console in the case of ACNH.
 
 The process is simply as follows:
