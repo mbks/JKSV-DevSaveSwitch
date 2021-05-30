@@ -8,6 +8,9 @@ namespace ui
     void updateUserMenu(const uint64_t& down, const uint64_t& held);
     void drawUserMenu();
 
+    void updateDevUserMenu(const uint64_t& down, const uint64_t& held);
+    void drawDevUserMenu();
+
     void updateTitleMenu(const uint64_t& down, const uint64_t& held);
     void drawTitleMenu();
 

@@ -130,6 +130,9 @@ namespace fs
     void logOpen();
     void logWrite(const char *fmt, ...);
     void logClose();
+
+    extern void writeDevuserFile(std::string path, std::string name);
+    extern std::string readDevuserFile(std::string path);
 }
 
 #endif // FILE_H

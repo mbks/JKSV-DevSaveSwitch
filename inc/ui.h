@@ -25,7 +25,8 @@ enum menuState
     TXT_TTL,
     TXT_FLD,
     EX_MNU,
-    OPT_MNU
+    OPT_MNU,
+    DEV_USR_SEL
 };
 
 namespace ui

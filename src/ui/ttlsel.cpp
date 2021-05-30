@@ -86,6 +86,12 @@ void ui::updateTitleMenu(const uint64_t& down, const uint64_t& held)
     switch(down)
     {
         case HidNpadButton_A:
+            if (data::curUser.getUID128() == 4) {
+                data::selUser = 0;
+                ui::changeState(DEV_USR_SEL);
+                break;
+            }
+
             if(fs::mountSave(data::curUser, data::curData))
             {
                 folderMenuPrepare(data::curUser, data::curData);

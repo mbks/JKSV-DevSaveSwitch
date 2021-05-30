@@ -21,6 +21,7 @@ static const unsigned saveOrder [] =
 };
 
 int data::selUser = 0, data::selData = 0;
+int data::devSwitchUser = 0;
 
 //User vector
 std::vector<data::user> data::users;
@@ -190,7 +191,7 @@ static bool testMount(const FsSaveDataInfo& _inf)
 
 bool data::loadUsersTitles(bool clearUsers)
 {
-    static unsigned systemUserCount = 3;
+    static unsigned systemUserCount = 4;
     FsSaveDataInfoReader it;
     FsSaveDataInfo info;
     s64 total = 0;
@@ -200,7 +201,7 @@ bool data::loadUsersTitles(bool clearUsers)
         u.titles.clear();
     if(clearUsers)
     {
-        systemUserCount = 3;
+        systemUserCount = 4;
         for(data::user& u : data::users)
             u.delIcon();
 
@@ -209,6 +210,7 @@ bool data::loadUsersTitles(bool clearUsers)
         cachePushed = false;
         tempPushed = false;
         users.emplace_back(util::u128ToAccountUID(3), "Device Saves", createDeviceIcon());
+        users.emplace_back(util::u128ToAccountUID(4), "Device Saves 2", createDeviceIcon());
         users.emplace_back(util::u128ToAccountUID(2), "BCAT");
         users.emplace_back(util::u128ToAccountUID(0), "System");
     }
@@ -224,7 +226,7 @@ bool data::loadUsersTitles(bool clearUsers)
             //Don't bother with this stuff
             if(blacklisted(info.application_id) || blacklisted(info.save_data_id) || !accountSystemSaveCheck(info) || !testMount(info))
                 continue;
-
+            bool device = false;
             switch(info.save_data_type)
             {
                 case FsSaveDataType_Bcat:
@@ -233,6 +235,7 @@ bool data::loadUsersTitles(bool clearUsers)
 
                 case FsSaveDataType_Device:
                     info.uid = util::u128ToAccountUID(3);
+                    device = true;
                     break;
 
                 case FsSaveDataType_SystemBcat:
@@ -273,6 +276,11 @@ bool data::loadUsersTitles(bool clearUsers)
                 u = getUserIndex(info.uid);
             }
             users[u].titles.emplace_back(info, dat);
+            if (device) {
+                users[getUserIndex(util::u128ToAccountUID(4))].titles.emplace_back(info, dat);
+                data::devSwitchUser = getUserIndex(util::u128ToAccountUID(4));
+            }
+
         }
         fsSaveDataInfoReaderClose(&it);
     }

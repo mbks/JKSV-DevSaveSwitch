@@ -484,6 +484,11 @@ void ui::drawUI()
             drawRect(frameBuffer, 640, 88, 1, 559, ui::txtCont);
             drawAdvMode();
             break;
+
+        case DEV_USR_SEL:
+            texDrawNoAlpha(usrGuide, frameBuffer, userHelpX, 673);
+            ui::drawDevUserMenu();
+            break;
     }
 }
 
@@ -566,6 +571,10 @@ void ui::runApp(const uint64_t& down, const uint64_t& held)
 
         case OPT_MNU:
             updateOptMenu(down, held);
+            break;
+
+        case DEV_USR_SEL:
+            updateDevUserMenu(down, held);
             break;
     }
     drawUI();

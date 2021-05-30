@@ -23,6 +23,7 @@ static std::string wd;
 static std::vector<std::string> pathFilter;
 
 static FSFILE *log;
+static FSFILE *devuser;
 
 static FsFileSystem sv;
 
@@ -852,5 +853,25 @@ void fs::logWrite(const char *fmt, ...)
 void fs::logClose()
 {
     fsfclose(log);
+}
+
+void fs::writeDevuserFile(std::string path, std::string name) {
+    std::string fulldevpath = path + "/activeDevUser.txt";
+    devuser = fsfopen(fulldevpath.c_str(), FsOpenMode_Write);
+    fsfwrite(name.c_str(), 1, strlen(name.c_str()), devuser);
+    fsfclose(devuser);
+}
+
+std::string fs::readDevuserFile(std::string path) {
+    std::string fulldevpath = path + "/activeDevUser.txt";
+    devuser = fsfopen(fulldevpath.c_str(), FsOpenMode_Read);
+    if (devuser) {
+        char name[200];
+        fsfread(name, 1, 200, devuser);
+        fsfclose(devuser);
+        return name;
+    } else {
+        return "";
+    }
 }
 
