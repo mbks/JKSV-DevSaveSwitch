@@ -1,3 +1,15 @@
+This fork contains a (dirty) modification to JKSV that allows device saves to be treated more like user saves.
+It was sparked from the inconvenience that Animal Crossing New Horizons does only allow for one island per console.
+With this mod you can now create one device save "per user" without having to manually backup and restore device saves via the normal JKSV functionality (and risking to make mistakes while doing so), which allows for multiple islands per console in the case of ACNH.
+
+The process is simply as follows:
+* Open JKSV-modified
+* Select "Device Saves 2"
+* Select the game you want to switch the device saves in (e.g. ACNH)
+* Select the user whose device save should be loaded
+
+At first start since the user device saves are not initialized, simply follow the steps above and choose the user which has the currently active save game. Then directly afterwards select the user you would like to be the second (/third/fourth...) device save slot. This will cause the first user to fill its device save folder with the currently active save and create an empty folder for the second user. Now you can simply restore the save of the second user (via regular JKSV) and swap back and forth as you like without having to touch the manual backup/restore button anymore.
+
 # JKSV
 
 Data Dump/Restore tool for Switch.
