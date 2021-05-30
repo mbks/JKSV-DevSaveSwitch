@@ -30,13 +30,13 @@ include $(DEVKITPRO)/libnx/switch_rules
 #     - icon.jpg
 #     - <libnx folder>/default_icon.jpg
 #---------------------------------------------------------------------------------
-TARGET		:=	JKSV
+TARGET		:=	JKSV_modified
 BUILD		:=	build
 SOURCES		:=	src src/ui
 DATA		:=	data
 INCLUDES	:=	inc
 EXEFS_SRC	:=	exefs_src
-APP_TITLE   :=  JKSV
+APP_TITLE   :=  JKSV_modified
 APP_AUTHOR  :=  JK
 APP_VERSION :=  05.27.2021
 ROMFS	    :=	romfs
